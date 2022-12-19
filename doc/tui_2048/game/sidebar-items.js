@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":[["Command","game command"]],"fn":[["is_equal_grid","check if two grid is equal"],["sum","recursive calculate vector’s adjacent boxes"]],"struct":[["Game","Game"],["Panel","game grid panel"]],"type":[["Grid","game grid"]]};

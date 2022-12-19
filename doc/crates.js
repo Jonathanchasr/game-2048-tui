@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["bitflags","cassowary","cfg_if","getrandom","libc","numtoa","ppv_lite86","rand","rand_chacha","rand_core","termion","tui","tui_2048","unicode_segmentation","unicode_width"];
