@@ -3,6 +3,17 @@ mod event;
 mod game;
 mod utils;
 
+///These lines import four modules (Rust's way of organizing code into reusable units) with the names 
+/// `app`, `event`, `game`, and `utils`.
+/// This Rust program is a command-line implementation of the popular game 2048. The program imports 
+/// various modules and external crates that provide functionality for user input, terminal output, and game logic.
+///  The main function sets up a terminal and an event loop, and on each iteration of the loop it calls the draw method
+///  on the terminal to render the game's user interface. The draw method takes a closure as an argument, which is used 
+/// to draw various elements of the user interface, such as a canvas for the game board and text for the score and current
+///  game command. The game logic is implemented in the App struct, which is created and updated in the event loop. 
+/// The loop also handles user input events, such as key presses, and uses them to update the game state and trigger 
+/// actions such as moving tiles or quitting the game.
+
 use std::{error::Error, io, time::Duration};
 use termion::{event::Key, input::MouseTerminal, raw::IntoRawMode, screen::AlternateScreen};
 use tui::{
@@ -20,6 +31,9 @@ use app::App;
 use event::{Config, Event, Events};
 use game::Command;
 
+// These lines use various items (such as types, functions, and constants) from the
+// Rust standard library and external crates (collections of Rust code that are available for use in other projects).
+
 fn main() -> Result<(), Box<dyn Error>> {
     let stdout = io::stdout().into_raw_mode()?;
     let stdout = MouseTerminal::from(stdout);
@@ -36,6 +50,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut app = App::new();
 
     loop {
+        // This loop will run indefinitely, and on each iteration it will call the draw method on a Terminal object 
+        // to render the game's user interface. The draw method takes a closure (a function that can be passed as an
+        //  argument to another function) as an argument. This closure has a single argument, f, which represents the
+        //  frame that the user interface will be drawn on. The let statement creates a variable called chunks which 
+        // is an array of two Rect objects that represent the left and right halves of the terminal window. 
+        // This array is created using the Layout type, which is part of the tui crate.
         terminal.draw(|f| {
             let chunks = Layout::default()
                 .direction(Direction::Horizontal)
@@ -149,6 +169,14 @@ fn main() -> Result<(), Box<dyn Error>> {
         })?;
 
         // Events
+        // handling user input events for the game. It uses a match statement to 
+        // determine what action to take based on the type of event that occurs. 
+        // If the event is an Input event, then this block of code will be executed.
+        //  It uses another match statement to handle different types of input events.
+        //  If the input event is a character event with the value 'q', the loop will 
+        // be broken and the program will exit. If the input event is a character event
+        //  with the value 'r', the restart method on the app object will be called.
+
         match events.next()? {
             Event::Input(input) => match input {
                 Key::Char('q') => {
@@ -158,6 +186,12 @@ fn main() -> Result<(), Box<dyn Error>> {
                     app.restart();
                 }
                 // left up right down
+                // This block of code handles various arrow key events and vim-style key events. 
+                // If an arrow key event or a vim-style key event is detected, it will add a 
+                // corresponding Command value to the app object using the add_command method. 
+                // The Command values represent the different actions that can be taken in the game,
+                // such as moving a tile up, down, left, or right.
+
                 Key::Down => {
                     app.add_command(Command::Down);
                 }
@@ -196,7 +230,15 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-/// make different strings as same length
+// make different strings as same length
+// The function first makes a copy of s and stores it in a variable called s. 
+// It then enters a loop. Within the loop, the function checks whether the length of s is less than length. 
+// If it is, it appends a space character to the end of s. If the length of s is equal to or greater than length, 
+// the loop breaks and the function returns s.
+// This function can be used to pad a string with spaces so that it reaches a minimum length. 
+// For example, if the input string is "hello" and the desired length is 10, the function would return "hello " 
+// (with three spaces added to the end). If the input string is already at least as long as the desired length, 
+// the function will return the string unmodified.
 fn pad_str(s: String, length: usize) -> String {
     let mut s = s.clone();
     loop {
@@ -210,7 +252,12 @@ fn pad_str(s: String, length: usize) -> String {
     s
 }
 
-/// render different color for different score
+// render different color for different score
+// uses a series of if statements to determine which Color to return based on the value of score. 
+// If score is less than 64, the function returns Color::Green. If score is greater than or equal to 64 but less than 256,
+//  the function returns Color::Magenta. If score is greater than or equal to 256 but less than 1024, 
+// the function returns Color::Cyan. If score is greater than or equal to 1024 but less than 4096, 
+// the function returns Color::LightRed. If none of these conditions are met, the function returns Color::Red.
 fn score_to_color(score: i32) -> Color {
     if score < 64 {
         Color::Green
